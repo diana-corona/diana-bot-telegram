@@ -1,0 +1,26 @@
+service: dspammer-bot
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: us-east-1
+  environment:
+    TELEGRAM_TOKEN: ${env:TELEGRAM_TOKEN}
+
+functions:
+  post:
+    handler: handler.hello
+    events:
+      - http:
+          path: /hello
+          method: post
+          cors: true
+          
+  daily:
+    handler: handler.daily
+    events:
+      - schedule: cron(00 14 * * ? *)
